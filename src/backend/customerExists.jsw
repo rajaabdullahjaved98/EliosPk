@@ -1,0 +1,13 @@
+// backend/contacts.jsw
+
+import { contacts } from 'wix-crm-backend';
+
+// Function to check if the phone number exists in Wix Contacts
+export async function isPhoneNumberRegistered(phoneNumber) {
+    const query = await contacts.queryContacts()
+        .eq("info.phones.phone", phoneNumber)  // Check for the phone number
+        .find();
+    
+    // Returns true if contact exists, false otherwise
+    return query.items.length > 0;
+}

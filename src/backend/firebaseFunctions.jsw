@@ -1,0 +1,112 @@
+// backend/firebaseFunctions.jsw
+import { fetch } from 'wix-fetch'; // Wix fetch API for HTTP requests
+import { initializeApp } from "firebase-app";
+import { getFirestore, collection, onSnapshot } from "@firebase/firestore";
+
+// Function to add a customer to Firestore
+export function addCustomerToFirebase(firstname, lastname, email, phone, address, city) {
+    const firebaseUrl = "https://us-central1-sabrocustomerservice.cloudfunctions.net/addCustomer"; 
+
+    // Create the request body
+    const customerData = {
+        firstname: firstname,
+        lastname: lastname,
+        email: email,
+        phone: phone,
+        address: address,
+        city: city
+    };
+
+    // Call the Firebase cloud function using a POST request
+    return fetch(firebaseUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(customerData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.text().then(errorMessage => {
+                throw new Error(errorMessage);
+            });
+        }
+        return response.json();
+    })
+    .then(result => {
+        console.log("Successfully added customer to Firebase:", result);
+        return result;
+    })
+    .catch(error => {
+        console.error("Error adding customer to Firebase:", error.message);
+        throw new Error(error.message);
+    });
+}
+
+
+// Backend function to update customer data
+// Backend function to save updated customer data
+export function updateCustomer(id, firstname, lastname, phone, email, address, city) {
+  const url = 'https://us-central1-sabrocustomerservice.cloudfunctions.net/saveUpdatedCustomer';
+  
+  const requestBody = JSON.stringify({
+    id,
+    firstname,
+    lastname,
+    phone,
+    email,
+    address,
+    city,
+  });
+
+  return fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: requestBody
+  })
+  .then(response => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      return { success: false, message: `Error: ${response.statusText}` };
+    }
+  })
+  .catch(error => {
+    console.error('Fetch error:', error);
+    return { success: false, message: `Fetch error: ${error.message}` };
+  });
+}
+
+
+
+// Function to save updated complaint data
+export function updateComplaint(customerId, complaintId, complaint, complaintstatus, closingdate) {
+  const url = 'https://us-central1-sabrocustomerservice.cloudfunctions.net/updateComplaintStatus';
+  
+  const requestBody = JSON.stringify({
+    customerId,
+    complaintId,
+    complaint,
+    complaintstatus,
+    closingdate,
+  });
+
+  return fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: requestBody
+  })
+  .then(response => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      return { success: false, message: `Error: ${response.statusText}` };
+    }
+  })
+  .catch(error => {
+    console.error('Fetch error:', error);
+    return { success: false, message: `Fetch error: ${error.message}` };
+  });
+}

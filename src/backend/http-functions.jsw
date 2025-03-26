@@ -1,0 +1,9 @@
+import { ok, serverError } from 'wix-http-functions';
+
+export function post_myWebhook(request) {
+    return request.body.json()
+    .then((body) => {
+        const data = body;
+        console.log("Data Received: ", data);
+    })
+}

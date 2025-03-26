@@ -1,0 +1,17 @@
+{
+  "devDependencies": {
+    "@wix/cli": "^1.0.0",
+    "@wix/eslint-plugin-cli": "^1.0.0",
+    "eslint": "^8.25.0",
+    "react": "16.14.0"
+  },
+  "dependencies": {
+    "firebase-app": "0.0.1",
+    "@firebase/firestore": "4.7.10"
+  },
+  "scripts": {
+    "postinstall": "wix sync-types",
+    "dev": "wix dev",
+    "lint": "eslint ."
+  }
+}

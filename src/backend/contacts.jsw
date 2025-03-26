@@ -1,0 +1,60 @@
+import { contacts } from "wix-crm-backend";
+
+// This function queries for subscribed contacts and includes phone numbers.
+export async function getSubscribedContacts(options) {
+  try {
+    // Adjust the query to make sure we include the phone number in the contact info
+    const queryResults = await contacts.queryContacts()
+      .find(options);
+    
+    console.log("Raw Contacts Data: ", JSON.stringify(queryResults.items, null, 2));
+
+    const allContacts = queryResults.items.map(contact => {
+      // Extract the desired fields (including phone)
+      const contactInfo = contact.info;
+      const phoneNumber = contactInfo.phones || "No phone number available"; // Handle case where phone might not be available
+
+      console.log("Full Contact Object: ", JSON.stringify(contact, null, 2));
+
+      return {
+        name: contactInfo.name, // Example of combining first and last name
+        email: contactInfo.emails,
+        phone: phoneNumber,
+        subscriptionStatus: contactInfo.extendedFields.emailSubscriptions?.subscriptionStatus
+      };
+    });
+
+    return allContacts;
+  } catch (error) {
+    console.error("Error fetching contacts:", error);
+    throw new Error("Failed to query contacts.");
+  }
+}
+
+/**
+ * Check if a contact with the same email or phone exists in the CRM.
+ * @param {string} email - The email to check.
+ * @param {string} phone - The phone to check.
+ * @returns {Promise<boolean>} - Resolves to true if the contact exists, false otherwise.
+ */
+export async function checkContactExists(email, phone) {
+    let query = contacts.queryContacts();
+
+    // Check for contact by email
+    if (email) {
+        query = query.eq('info.emails.email', email);
+        console.log("Checked for email dupliaction");
+    }
+
+    // Check for contact by phone if email is not found
+    if (phone) {
+        query = query.or(contacts.queryContacts().eq('info.phones.phone', phone));
+        console.log("Check for Phone number duplication");
+    }
+
+    // Use await for the Firestore query results
+    let results = await query.find();
+    
+    // Return true if there are any matching contacts, else false
+    return Promise.resolve(results.items.length > 0);
+}

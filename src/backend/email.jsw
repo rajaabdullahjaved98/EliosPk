@@ -1,0 +1,28 @@
+import { triggeredEmails } from 'wix-crm-backend';
+
+// Example function to send a triggered email
+export async function sendWarrantyEmail(memberId, siteUrl) {
+  try {
+    await triggeredEmails.emailMember('WarrantyEmail', memberId, {
+      variables: {
+        SITE_URL: siteUrl
+      }
+    });
+    console.log('Email sent successfully!');
+  } catch (error) {
+    console.error('Error sending email:', error);
+  }
+}
+
+export async function sendComplaintEmail(memberId, siteUrl) {
+  try {
+    await triggeredEmails.emailMember('ComplaintEmail', memberId, {
+      variables: {
+        SITE_URL: siteUrl
+      }
+    });
+    console.log('Email sent successfully!');
+  } catch (error) {
+    console.error('Error sending email:', error);
+  }
+}
