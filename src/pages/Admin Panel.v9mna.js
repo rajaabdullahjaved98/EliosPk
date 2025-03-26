@@ -421,7 +421,7 @@ async function checkUserRole(user) {
 
     }
 
-    if (isFSDAdmin) {
+    if (!isISBAdmin) {
       loadCustomerData(); 
       loadWarrantyData();
       loadComplaintsData();
