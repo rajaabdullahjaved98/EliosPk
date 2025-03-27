@@ -475,6 +475,18 @@ async function checkUserRole(user) {
         });
       });
     }
+
+    if (isKHIAdmin) {
+      console.log("The user is KHI admin");
+    }
+
+    if (isLHRAdmin) {
+      console.log("The user is LHR admin");
+    }
+
+    if(isPWRAdmin) {
+      console.log("The user is PWR admin");
+    }
   } catch (err) {
 
   }
