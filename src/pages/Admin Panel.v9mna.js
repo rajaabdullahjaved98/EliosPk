@@ -466,8 +466,8 @@ async function checkUserRole(user) {
 
         let repeaterData = $w("#repeater4").data;
 
-        $w("#repeater4").onItemReady(($item, itemData) => {
-          if (itemData.city === filterValue) {
+        $w("#repeater4").forEachItem(($item, itemData, index) => {
+          if (itemData.city && itemData.city.includes(filterValue)) {
             console.log("Key value found");
             $item.show();
           } else {
