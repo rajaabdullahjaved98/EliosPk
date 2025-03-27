@@ -426,6 +426,7 @@ async function checkUserRole(user) {
       loadWarrantyData();
       loadComplaintsData();
 
+      //DISABLE CUSTOMER TAB
       $w("#input36").disable();
       $w("#input35").disable();
       $w("#input34").disable();
@@ -434,6 +435,7 @@ async function checkUserRole(user) {
       $w("#input31").disable();
       $w("#input30").disable();
 
+      //DISABLE WARRANTIES TAB
       $w("#input14").disable();
       $w("#input13").disable();
       $w("#input12").disable();
@@ -444,6 +446,7 @@ async function checkUserRole(user) {
       $w("#input8").disable();
       $w("#input15").disable();
 
+      //DISABLE COMPLAINTS TAB
       $w("#input21").disable();
       $w("#input22").disable();
       $w("#input23").disable();
@@ -453,9 +456,23 @@ async function checkUserRole(user) {
       $w("#input18").disable();
       $w("#input19").disable();
     }
+
+    if (isFSDAdmin) {
+      $w("#input31").onInput(() => {
+        const filterValue = "Faisalabad";
+
+        let repeaterData = $w("#repeater4").data;
+
+        $w("#repeater4").forEachItem(($item, itemData, index) => {
+          if (itemData.city && itemData.city.includes(filterValue)) {
+            $item.show();
+          } else {
+            $item.hide();
+          }
+        });
+      });
+    }
   } catch (err) {
 
   }
-
-
 }
