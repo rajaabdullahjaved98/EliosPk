@@ -461,20 +461,21 @@ async function checkUserRole(user) {
 
     if (isFSDAdmin) {
       console.log("The user is FSD admin");
-      $w("#input31").onInput(() => {
-        const filterValue = "Faisalabad";
+      
+      const filterValue = "Faisalabad";
+      let repeaterData = originalCustomersData;
+      let filteredData = repeaterData.filter(customer => customer.city.includes(filterValue));
+      console.log("Data Filtered");
+      $w("#repeater4").data = filteredData;
 
-        let repeaterData = $w("#repeater4").data;
-
-        $w("#repeater4").forEachItem(($item, itemData, index) => {
-          if (itemData.city && itemData.city.includes(filterValue)) {
-            console.log("Key value found");
-            $item.show();
-          } else {
-            console.log("Key value not found");
-            $item.hide();
-          }
-        });
+      $w("#repeater4").onItemReady(($item, itemData) => {
+        $item("#input36").value = itemData.firstname;
+        $item("#input35").value = itemData.lastname;
+        $item("#input34").value = itemData.phone;
+        $item("#input33").value = itemData.email;
+        $item("#input32").value = itemData.address;
+        $item("#input31").value = itemData.city;
+        $item("#input30").value = itemData.createdAt;
       });
     }
 
