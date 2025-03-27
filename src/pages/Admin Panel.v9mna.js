@@ -414,6 +414,7 @@ async function checkUserRole(user) {
     const isPWRAdmin = roles.some(role => role.name === "PWR Admin");
 
     if (isISBAdmin) {
+      console.log("The user is an ISB admin");
       loadCustomerData(); 
       loadWarrantyData();
       loadComplaintsData();
@@ -422,6 +423,7 @@ async function checkUserRole(user) {
     }
 
     if (!isISBAdmin) {
+      console.log("The user is not an ISB admin");
       loadCustomerData(); 
       loadWarrantyData();
       loadComplaintsData();
@@ -458,6 +460,7 @@ async function checkUserRole(user) {
     }
 
     if (isFSDAdmin) {
+      console.log("The user is FSD admin");
       $w("#input31").onInput(() => {
         const filterValue = "Faisalabad";
 
