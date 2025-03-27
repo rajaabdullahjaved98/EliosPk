@@ -467,7 +467,7 @@ async function checkUserRole(user) {
         let repeaterData = $w("#repeater4").data;
 
         $w("#repeater4").onItemReady(($item, itemData) => {
-          if (itemData.city && itemData.city.includes(filterValue)) {
+          if (itemData.city === filterValue) {
             $item.show();
           } else {
             $item.hide();
